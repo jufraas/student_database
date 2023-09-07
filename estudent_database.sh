@@ -4,23 +4,8 @@
 DB_USER="postgres"
 DB_PASSWORD="meliodas1605"
 DB_NAME="estudent_database"
-PORT = 5000
-SCHEMA_NAME = "estudentsschema"
-validate_id() {
-    local table_name=$1
-    local column_name=$2
-    local id=$3
-    local query="SELECT COUNT(*) FROM $SCHEMA_NAME.$table_name WHERE $column_name = '$id';"
-    local result=$(psql -U $DB_USER -d $DB_NAME -t -c "$query")
-    
-    if [ "$result" -gt 0 ]; then
-        return 0  # El ID existe
-    else
-        return 1  # El ID no existe
-    fi
-}
-
-
+SCHEMA_NAME="public"
+PORT=5432
 # Function to add information to the Student table
 add_student() {
     echo "Enter student data:"
@@ -29,7 +14,7 @@ add_student() {
     read -p "Gender: " gender
     read -p "Address: " address
 
-    psql -U $DB_USER -d $DB_NAME -c "INSERT INTO $SCHEMA_NAME (name, last_name, gender, address) VALUES ('$name', '$lastname', '$gender', '$address');"
+    psql  -U "$DB_USER" -d "$DB_NAME" -c "  INSERT INTO $SCHEMA_NAME.student (name, last_name, gender, address) VALUES ('$name', '$lastname', '$gender', '$address');"
     echo "Student information"
 }
 
@@ -41,7 +26,7 @@ add_course() {
     read -p "StartDate: " start_date
     read -p "CompleteDate: " complete_date
     
-    psql -U "$DB_USER" -d "$DB_NAME" -c "INSERT INTO $SCHEMA_NAME(name_course, last_name, start_date, complete_date) VALUES ('$name_course', '$last_name', '$start_date', '$complete_date')"
+    psql -U "$DB_USER" -d "$DB_NAME" -c "INSERT INTO $SCHEMA_NAME.course (name_course, last_name, start_date, complete_date) VALUES ('$name_course', '$last_name', '$start_date', '$complete_date')"
     echo "Course information"
 }
 
@@ -53,7 +38,7 @@ add_professor() {
     read -p "Specialization" specialization 
     read -p "Email" email
 
-    psql -U "$DB_USER" -d "$DB_NAME" -c "INSERT INTO $SCHEMA_NAME (name, last_name, specialization, email) VALUES ('$name', '$last_name', '$specialization', '$email');"
+    psql -U "$DB_USER" -d "$DB_NAME" -c "INSERT INTO $SCHEMA_NAME.professor (name, last_name, specialization, email) VALUES ('$name', '$last_name', '$specialization', '$email');"
     echo "Professor information"
 }
 
