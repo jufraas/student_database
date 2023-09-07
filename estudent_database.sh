@@ -2,7 +2,7 @@
 
 # Database connection variables
 DB_USER="postgres"
-DB_PASSWORD="meliodas1605"
+DB_PASSWORD="password"
 DB_NAME="estudent_database"
 SCHEMA_NAME="public"
 PORT=5432
